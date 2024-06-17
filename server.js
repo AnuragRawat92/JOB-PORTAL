@@ -35,6 +35,15 @@ const options ={
             url:"https://job-portal-awyz.onrender.com/api-doc"
         }
     ],
+   components: {
+        securitySchemes: {
+          bearerAuth: {
+            type: 'http',
+            scheme: 'bearer',
+            bearerFormat: 'JWT',
+          },
+        },
+      },
 },
 apis:['./routes/*.js']
     
