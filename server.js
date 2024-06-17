@@ -60,9 +60,9 @@ app.use('/api/v1/job',jobRoutes)
 app.use('/api-doc',swaggerui.serve,swaggerui.setup(spec))
 // validator middleware
 app.use(errorMiddleware)
-app.get('/',(req,res)=>{
-    res.redirect('/api-doc')
-})
+// app.get('/',(req,res)=>{
+//     res.redirect('/api-doc')
+// })
 //listen
 app.listen(PORT,()=>{
     console.log(`server running in ${process.env.Dev_Mode} at ${PORT}`.bgCyan.white)
