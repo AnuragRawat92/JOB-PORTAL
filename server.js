@@ -31,8 +31,8 @@ const options ={
     },
     servers:[
         {
-            url:"http://localhost:8080",
-            url:"https://job-portal-awyz.onrender.com"
+            url:"http://localhost:8080/api-doc",
+            url:"https://job-portal-awyz.onrender.com/api-doc"
         }
     ],
 },
