@@ -62,7 +62,7 @@ app.use(express.json());
 
 // CORS setup to allow all origins for simplicity
 app.use(cors());
-const allowedOrigins = ['https://your-render-url.onrender.com'];
+const allowedOrigins = ['https://job-portal-awyz.onrender.com'];
 
 app.use(cors({
   origin: function (origin, callback) {
