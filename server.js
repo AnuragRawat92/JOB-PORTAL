@@ -46,18 +46,6 @@ const options = {
   },
   apis: ['./routes/*.js'], // Path to the API docs
 };
-const allowedOrigins = ['https://your-render-url.onrender.com'];
-
-app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-}));
-
 const spec = swaggerJsdoc(options);
 
 // Connect to MongoDB
@@ -74,6 +62,17 @@ app.use(express.json());
 
 // CORS setup to allow all origins for simplicity
 app.use(cors());
+const allowedOrigins = ['https://your-render-url.onrender.com'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 
 app.use(morgan('dev'));
 
