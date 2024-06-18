@@ -1,41 +1,40 @@
-//imports
-import swaggerui from "swagger-ui-express";
-import swaggerdoc from "swagger-jsdoc";
-// const express=require("express")
-import express from "express";
-import 'express-async-errors';
-import dotenv from "dotenv";
-import colors from "colors";
-import cors from "cors";
-import morgan from "morgan";
-// security packages
-import helmet from "helmet";
-import xss from "xss-clean";
-import mongosanitize from "express-mongo-sanitize"
-//file imports
-import connectdb from "./config/db.js";
-import testroutes from  "./routes/testroute.js";
-import authRoutes from "./routes/authRoutes.js"
-import errorMiddleware from "./middlewares/errorMiddlewares.js";
-import userRoutes from "./routes/userRoutes.js";
-import jobRoutes from "./routes/jobsRoutes.js"
-//dotenv config
-dotenv.config()
-// config swagger api
-const options ={
-    definition:{
-    openapi:"3.0.0",
-    info:{
-        title:"Job Portal Application",
-        description:"NodeJs ExpressJs Job Portal Application"
+// imports
+import express from 'express';
+import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
+import dotenv from 'dotenv';
+import helmet from 'helmet';
+import xss from 'xss-clean';
+import mongoSanitize from 'express-mongo-sanitize';
+import colors from 'colors';
+import morgan from 'morgan';
+
+import connectdb from './config/db.js';
+import testRoutes from './routes/testroute.js';
+import authRoutes from './routes/authRoutes.js';
+import errorMiddleware from './middlewares/errorMiddlewares.js';
+import userRoutes from './routes/userRoutes.js';
+import jobRoutes from './routes/jobsRoutes.js';
+
+// dotenv config
+dotenv.config();
+
+// Swagger configuration options
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Job Portal Application',
+      description: 'NodeJs ExpressJs Job Portal Application',
     },
-    servers:[
-        {
-            url:process.env.BASE_URL || "http://localhost:8080/api-doc",
-            description: 'Local server',
-        }
+    servers: [
+      {
+        url: process.env.BASE_URL || 'http://localhost:8080', // Use environment variable for the base URL
+        description: 'Local server',
+      }
     ],
-     components: {
+    components: {
       securitySchemes: {
         bearerAuth: {
           type: 'http',
@@ -44,35 +43,48 @@ const options ={
         },
       },
     },
-},
-apis:['./routes/*.js']
-    
-}
-const spec =swaggerdoc(options)
-//mongodb connection
+  },
+  apis: ['./routes/*.js'], // Path to the API docs
+};
+
+const spec = swaggerJsdoc(options);
+
+// Connect to MongoDB
 connectdb();
-//rest objects
-const app=express();
-// middlewares
-// app.use(helmet(``))
-app.use(xss())
-app.use(mongosanitize())
-app.use(express.json())
-app.use(cors())
-app.use(morgan('dev'))
-const PORT=8080 || process.env.PORT
-//routes
-app.use('/api/v1/test',testroutes)
-app.use('/api/v1/auth',authRoutes)
-app.use('/api/v1/user',userRoutes)
-app.use('/api/v1/job',jobRoutes)
-app.use('/api-doc',swaggerui.serve,swaggerui.setup(spec))
-// validator middleware
-app.use(errorMiddleware)
-app.get('/',(req,res)=>{
-    res.redirect('/api-doc')
-})
-//listen
-app.listen(PORT,()=>{
-    console.log(`server running in ${process.env.Dev_Mode} at ${PORT}`.bgCyan.white)
-})
+
+// Initialize express application
+const app = express();
+
+// Middlewares
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
+app.use(express.json());
+
+// CORS setup to allow all origins for simplicity
+app.use(cors());
+
+app.use(morgan('dev'));
+
+// Routes
+app.use('/api/v1/test', testRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/user', userRoutes);
+app.use('/api/v1/job', jobRoutes);
+
+// Swagger UI setup
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(spec));
+
+// Error handling middleware
+app.use(errorMiddleware);
+
+// Redirect root to Swagger UI
+app.get('/', (req, res) => {
+  res.redirect('/api-docs');
+});
+
+// Start the server
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode at ${PORT}`.bgCyan.white);
+});
