@@ -31,7 +31,7 @@ const options ={
     },
     servers:[
         {
-            url:"http://localhost:8080/api-doc",
+            url:process.env.BASE_URL || "http://localhost:8080/api-doc",
             description: 'Local server',
         }
     ],
