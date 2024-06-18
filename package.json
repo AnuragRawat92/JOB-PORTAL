@@ -2,6 +2,7 @@
   "name": "job-portal",
   "version": "1.0.0",
   "description": "",
+  "proxy":"http://localhost:8080",
   "main": "index.js",
   "type": "module",
   "scripts": {
