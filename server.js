@@ -76,9 +76,9 @@ app.use('/api-doc', swaggerui.serve, swaggerui.setup(spec));
 app.use(errorMiddleware);
 
 // Redirect root to Swagger UI
-app.get('/', (req, res) => {
-  res.redirect('/api-doc');
-});
+// app.get('/', (req, res) => {
+//   res.redirect('/api-doc');
+// });
 
 // Start the server
 const PORT = process.env.PORT || 8080;
