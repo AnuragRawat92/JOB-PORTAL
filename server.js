@@ -79,6 +79,7 @@ app.use(errorMiddleware);
 // app.get('/', (req, res) => {
 //   res.redirect('/api-doc');
 // });
+app.options('*', cors());
 
 // Start the server
 const PORT = process.env.PORT || 8080;
