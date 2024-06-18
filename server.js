@@ -46,6 +46,17 @@ const options = {
   },
   apis: ['./routes/*.js'], // Path to the API docs
 };
+const allowedOrigins = ['https://your-render-url.onrender.com'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+}));
 
 const spec = swaggerJsdoc(options);
 
